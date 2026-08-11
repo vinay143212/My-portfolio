@@ -46,49 +46,107 @@
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
         /* Custom Ambient Grid Background */
         .bg-grid-pattern {
             background-size: 30px 30px;
-            background-image: 
+            background-image:
                 linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
                 linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
         }
 
         /* Glassmorphism Utility */
         .glass-card {
-            background: rgba(18, 23, 35, 0.65);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(56, 189, 248, 0.12);
+            background: rgba(18, 23, 35, 0.72);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(148, 163, 184, 0.12);
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(56, 189, 248, 0.25);
         }
 
         .glass-nav {
-            background: rgba(10, 13, 20, 0.8);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            background: rgba(10, 13, 20, 0.86);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        /* Subtle Glow Effects */
-        .glow-blue {
-            box-shadow: 0 0 25px -5px rgba(56, 189, 248, 0.25);
+        .section-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: #38bdf8;
         }
 
-        .glow-purple {
-            box-shadow: 0 0 25px -5px rgba(168, 85, 247, 0.25);
+        .section-title {
+            font-size: clamp(2.2rem, 2.4vw, 3.5rem);
+            line-height: 1.05;
         }
 
-        /* Continuous Ambient Gradient Movement */
+        .section-description {
+            max-width: 42rem;
+            color: #94a3b8;
+        }
+
+        .project-filter-btn {
+            border: 1px solid rgba(148, 163, 184, 0.16);
+            background: rgba(15, 23, 42, 0.6);
+            color: #cbd5e1;
+        }
+
+        .project-filter-btn.active {
+            color: #38bdf8;
+            border-color: rgba(56, 189, 248, 0.4);
+            background: rgba(56, 189, 248, 0.08);
+        }
+
+        .hero-code-box {
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0.92), rgba(15, 23, 42, 0.75));
+            border: 1px solid rgba(56, 189, 248, 0.16);
+        }
+
+        .hero-keyword {
+            color: #a855f7;
+        }
+
+        .hero-term {
+            color: #38bdf8;
+        }
+
+        .hero-panel {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(148, 163, 184, 0.14);
+        }
+
+        .hero-badge {
+            color: #7dd3fc;
+        }
+
+        .hero-note {
+            color: #cbd5e1;
+        }
+
         @keyframes subtleGlow {
-            0%, 100% { opacity: 0.4; transform: scale(1); }
-            50% { opacity: 0.7; transform: scale(1.05); }
+            0%, 100% { opacity: 0.45; transform: scale(1); }
+            50% { opacity: 0.75; transform: scale(1.04); }
         }
 
         .animate-glow {
-            animation: subtleGlow 8s ease-in-out infinite;
+            animation: subtleGlow 9s ease-in-out infinite;
         }
 
-        /* Accessible Reduced Motion Support */
         @media (prefers-reduced-motion: reduce) {
             *, ::before, ::after {
                 animation-duration: 0.01ms !important;
@@ -126,7 +184,7 @@
 
                 <!-- View Resume Action CTA -->
                 <div class="hidden md:flex items-center">
-                    <a href="#resume" onclick="handleResumeClick(event)" class="inline-flex items-center space-x-2 text-xs font-mono px-4 py-2 rounded-md border border-brand-primary/40 bg-brand-primary/10 text-brand-primary hover:bg-brand-primary/20 hover:border-brand-primary transition">
+                    <a href="#contact" class="inline-flex items-center space-x-2 text-xs font-mono px-4 py-2 rounded-md border border-brand-primary/40 bg-brand-primary/10 text-brand-primary hover:bg-brand-primary/20 hover:border-brand-primary transition">
                         <i data-lucide="file-text" class="w-4 h-4"></i>
                         <span>View Resume</span>
                     </a>
@@ -148,7 +206,7 @@
             <a href="#skills" class="mobile-nav-link block px-3 py-2 text-base font-medium text-slate-300 hover:text-brand-primary rounded-md">Skills</a>
             <a href="#projects" class="mobile-nav-link block px-3 py-2 text-base font-medium text-slate-300 hover:text-brand-primary rounded-md">Projects</a>
             <a href="#contact" class="mobile-nav-link block px-3 py-2 text-base font-medium text-slate-300 hover:text-brand-primary rounded-md">Contact</a>
-            <a href="#resume" onclick="handleResumeClick(event)" class="inline-flex items-center justify-center space-x-2 w-full mt-2 text-xs font-mono px-4 py-2.5 rounded-md border border-brand-primary/40 bg-brand-primary/10 text-brand-primary">
+            <a href="#contact" class="inline-flex items-center justify-center space-x-2 w-full mt-2 text-xs font-mono px-4 py-2.5 rounded-md border border-brand-primary/40 bg-brand-primary/10 text-brand-primary">
                 <i data-lucide="file-text" class="w-4 h-4"></i>
                 <span>View Resume</span>
             </a>
@@ -461,10 +519,10 @@
 
                     <!-- Project Filters -->
                     <div class="flex flex-wrap gap-2 mt-4 md:mt-0 font-mono text-xs">
-                        <button onclick="filterProjects('all')" class="project-filter-btn active px-3 py-1.5 rounded-md glass-card text-brand-primary border-brand-primary/40">All</button>
-                        <button onclick="filterProjects('python')" class="project-filter-btn px-3 py-1.5 rounded-md glass-card text-slate-400 hover:text-white">Python</button>
-                        <button onclick="filterProjects('aiml')" class="project-filter-btn px-3 py-1.5 rounded-md glass-card text-slate-400 hover:text-white">AI/ML</button>
-                        <button onclick="filterProjects('database')" class="project-filter-btn px-3 py-1.5 rounded-md glass-card text-slate-400 hover:text-white">Database</button>
+                        <button type="button" onclick="filterProjects('all', event)" class="project-filter-btn active px-3 py-1.5 rounded-md glass-card">All</button>
+                        <button type="button" onclick="filterProjects('python', event)" class="project-filter-btn px-3 py-1.5 rounded-md glass-card">Python</button>
+                        <button type="button" onclick="filterProjects('aiml', event)" class="project-filter-btn px-3 py-1.5 rounded-md glass-card">AI/ML</button>
+                        <button type="button" onclick="filterProjects('database', event)" class="project-filter-btn px-3 py-1.5 rounded-md glass-card">Database</button>
                     </div>
                 </div>
 
@@ -721,17 +779,18 @@
         });
 
         // Project Filter Functionality
-        function filterProjects(category) {
+        function filterProjects(category, event) {
             const cards = document.querySelectorAll('.project-card');
             const buttons = document.querySelectorAll('.project-filter-btn');
 
             buttons.forEach(btn => {
-                btn.classList.remove('text-brand-primary', 'border-brand-primary/40');
-                btn.classList.add('text-slate-400');
+                btn.classList.remove('active');
             });
 
-            event.target.classList.remove('text-slate-400');
-            event.target.classList.add('text-brand-primary', 'border-brand-primary/40');
+            const clickedButton = event?.currentTarget || event?.target;
+            if (clickedButton) {
+                clickedButton.classList.add('active');
+            }
 
             cards.forEach(card => {
                 if (category === 'all' || card.dataset.category.includes(category)) {
